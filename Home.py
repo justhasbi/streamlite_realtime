@@ -8,6 +8,7 @@ import torchvision.models as models
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
 import torch
+import os
 
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -79,10 +80,6 @@ def app_corn_disease_predictor():
             print(f"Prediction: {idx} - {idx_to_class[idx]}")
             print(f"Probability : {output[idx]}")
             print(f"Overall prediction : {output}")
-            # st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
-            # st.write(f"Probability : {output[idx]}")
-            # st.write(f"Overall prediction : **{output}**")
-
             return av.VideoFrame.from_ndarray(img, format="bgr24")
 
     webrtc_ctx = webrtc_streamer(
@@ -116,6 +113,9 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
         set_parameter_requires_grad(model_ft, feature_extract)
         num_features = model_ft.classifier[1].in_features
         model_ft.classifier[1] = nn.Linear(num_features, num_classes)
+        model_state_dict = os.path.join(os.path.dirname(__file__), 'model (1).pth')
+        model_ft.load_state_dict(torch.load(model_state_dict, map_location=torch.device('cpu')))
+
     else:
         print("invalid model name")
         exit()
