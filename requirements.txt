@@ -11,6 +11,6 @@ torchaudio==0.10.0
 torchvision==0.11.1
 opencv-python
 ffmpeg 
-libsm6 
-libxext6
+libsm==0.1.0
+libfsext-python==20220529
 libgl1
