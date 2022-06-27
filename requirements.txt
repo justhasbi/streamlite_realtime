@@ -14,3 +14,5 @@ ffmpeg
 libsm==0.1.0
 libfsext-python==20220529
 pyglview==1.3.4
+opencv-python-headless
+opencv_contrib_python
