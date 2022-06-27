@@ -9,6 +9,7 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
 import torch
 import os
+import cv2
 
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -42,13 +43,11 @@ def prediction(image_name, transform, inference_model, prediction_type=None):
     with torch.no_grad():
         inference_model.eval()
         output = inference_model(data_iteration)
-        sm = torch.nn.Softmax(dim=1)
-        index = output.data.cpu().numpy().argmax()
+        sm = torch.nn.Sigmoid()
         sm_output = (sm(output).squeeze(0)).tolist()
+        index = sm_output.index(max(sm_output))
 
     return index, sm_output
-
-
 
 
 def app_corn_disease_predictor():
@@ -60,7 +59,7 @@ def app_corn_disease_predictor():
     transAug = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize(mean, std),
-         transforms.Resize((224, 224))])
+         transforms.Resize((256, 256))])
     idx_to_class = {
         0: 'Karat Daun',
         1: 'Bercak Daun',
@@ -80,6 +79,10 @@ def app_corn_disease_predictor():
             print(f"Prediction: {idx} - {idx_to_class[idx]}")
             print(f"Probability : {output[idx]}")
             print(f"Overall prediction : {output}")
+
+            cv2.putText(img, f'{idx} - {idx_to_class[idx]}, {output}', (50, 50),
+                        cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                        0.9, (255, 255, 255), 2)
             return av.VideoFrame.from_ndarray(img, format="bgr24")
 
     webrtc_ctx = webrtc_streamer(
@@ -126,7 +129,7 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
 def main():
     st.title('Welcome to Corn Disease Classification Demo Application')
 
-    activities = ["Live Classification", "Upload Image", "Camera Input"]
+    activities = ["Live Classification", "Upload Image", "Camera Input", "About", "Contact"]
     choice = st.sidebar.selectbox('Select Activity', activities)
 
     model_name = 'mobilenetv2'
@@ -144,7 +147,7 @@ def main():
     transAug = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize(mean, std),
-         transforms.Resize((224, 224))])
+         transforms.Resize((256, 256))])
     model_ft, _ = initialize_model(model_name, num_classes, feature_extract, use_pretrained=True)
 
 
@@ -177,6 +180,12 @@ def main():
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
             st.write(f"Probability : {output[idx]}")
             st.write(f"Overall prediction : **{output}**")
+
+    elif choice == "About":
+        st.markdown("#About")
+
+    elif choice == "Contact":
+        st.markdown("#Contact")
 
 
 if __name__ == '__main__':
