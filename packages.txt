@@ -1,0 +1,2 @@
+apt-get freeglut3-dev
+apt-get libgtk2.0-dev
