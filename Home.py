@@ -163,7 +163,7 @@ def main():
             our_static_image = Image.open(image_file)
             st.image(our_static_image, width=400)
             idx, output = prediction(image_file, transAug, model_ft)
-            listOutput = [float("{:.2f}".format(x)) for i in output]
+            listOutput = [float("{:.2f}".format(i)) for i in output]
 
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
             st.write(f"Probability : {listOutput[idx]}")
@@ -176,7 +176,7 @@ def main():
             # To read image file buffer as a PIL Image:
             img = Image.open(img_file_buffer)
             st.image(img, width=400)
-            listOutput = [float("{:.2f}".format(x)) for i in output]
+            listOutput = [float("{:.2f}".format(i)) for i in output]
 
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
             st.write(f"Probability : {listOutput[idx]}")
