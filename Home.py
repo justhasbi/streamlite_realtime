@@ -167,7 +167,7 @@ def main():
 
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
             st.write(f"Probability : {output[idx]}")
-            st.write(f"Overall prediction : **{listOutput}**")
+            st.write(f"Overall prediction : **{output}**")
 
     elif choice == "Camera Input":
         img_file_buffer = st.camera_input("Take a picture")
