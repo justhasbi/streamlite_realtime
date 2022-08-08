@@ -158,7 +158,7 @@ def main():
 
     elif choice == 'Upload Image':
         st.subheader('Inference model using image')
-        image_file = st.file_uploader('Upload Image', type=["jpg", "png", "jpeg"])
+        image_file = st.file_uploader('Upload Image', type=["jpg", "jpeg"])
         if image_file is not None:
             our_static_image = Image.open(image_file)
             st.image(our_static_image, width=400)
