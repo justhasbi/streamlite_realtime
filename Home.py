@@ -52,7 +52,7 @@ def prediction(image_name, transform, inference_model, prediction_type=None):
 
 def app_corn_disease_predictor():
     model_name = 'mobilenetv2'
-    num_classes = 4
+    num_classes = 6
     feature_extract = False
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
@@ -135,7 +135,7 @@ def main():
     choice = st.sidebar.selectbox('Select Activity', activities)
 
     model_name = 'mobilenetv2'
-    num_classes = 4
+    num_classes = 6
     feature_extract = False
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
