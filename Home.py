@@ -163,10 +163,11 @@ def main():
             our_static_image = Image.open(image_file)
             st.image(our_static_image, width=400)
             idx, output = prediction(image_file, transAug, model_ft)
+            listOutput = [float("{:.2f}".format(x)) for i in output]
 
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
-            st.write(f"Probability : {output[idx]}")
-            st.write(f"Overall prediction : **{output}**")
+            st.write(f"Probability : {listOutput[idx]}")
+            st.write(f"Overall prediction : **{listOutput}**")
 
     elif choice == "Camera Input":
         img_file_buffer = st.camera_input("Take a picture")
@@ -175,11 +176,11 @@ def main():
             # To read image file buffer as a PIL Image:
             img = Image.open(img_file_buffer)
             st.image(img, width=400)
-            idx, output = prediction(img_file_buffer, transAug, model_ft)
+            listOutput = [float("{:.2f}".format(x)) for i in output]
 
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
-            st.write(f"Probability : {output[idx]}")
-            st.write(f"Overall prediction : **{output}**")
+            st.write(f"Probability : {listOutput[idx]}")
+            st.write(f"Overall prediction : **{listOutput}**")
 
     elif choice == "About":
         st.markdown("#About")
