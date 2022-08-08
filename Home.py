@@ -176,6 +176,7 @@ def main():
             # To read image file buffer as a PIL Image:
             img = Image.open(img_file_buffer)
             st.image(img, width=400)
+            idx, output = prediction(img_file_buffer, transAug, model_ft)
             output = [float("{:.2f}".format(i)) for i in output]
 
             st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
