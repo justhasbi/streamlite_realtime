@@ -76,9 +76,11 @@ def app_corn_disease_predictor():
             img = frame.to_ndarray(format="bgr24")
             idx, output = prediction(img, transAug, model_ft, prediction_type="realtime")
 
-            print(f"Prediction: {idx} - {idx_to_class[idx]}")
-            print(f"Probability : {output[idx]}")
-            print(f"Overall prediction : {output}")
+            output = [float("{:.2f}".format(i)) for i in output]
+
+            st.write(f""" ### Prediction: {idx} - {idx_to_class[idx]}""")
+            st.write(f"Probability : {output[idx]}")
+            st.write(f"Overall prediction : **{output}**")
 
             cv2.putText(img, f'{idx} - {idx_to_class[idx]}, {output}', (50, 50),
                         cv2.FONT_HERSHEY_COMPLEX_SMALL,
